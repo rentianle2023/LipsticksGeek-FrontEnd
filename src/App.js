@@ -4,6 +4,7 @@ import Footer from './pages/Footer';
 import Recommendation from './pages/Recommendation';
 import Encyclopedia from './pages/Encyclopedia';
 import Community from './pages/Community';
+import BrandDetail from './pages/BrandDetail';
 
 import {
   BrowserRouter as Router,
@@ -11,6 +12,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import LipstickDetail from './pages/LipstickDetail';
 
 function App() {
   return (
@@ -18,9 +20,15 @@ function App() {
       <Header />
 
       <Routes>
-        <Route path="/" element={<Home />} exact />
+        <Route path="/" element={<Home />} />
         <Route path="/recommendation" element={<Recommendation />} />
-        <Route path="/encyclopedia" element={<Encyclopedia />}/>
+
+        <Route path="/encyclopedia" element={<Encyclopedia />} />
+        
+        <Route path='/brand/:brandId' element={<BrandDetail />} />
+
+        <Route path='/lipstick/:lipstickId' element={<LipstickDetail />} />
+
         <Route path="/community" element={<Community />} />
       </Routes>
 

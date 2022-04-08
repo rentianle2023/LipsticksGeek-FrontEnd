@@ -16,4 +16,8 @@ html, body {
     .flex-col-feature {
       @apply flex flex-col items-center gap-2 bg-gray-100 mt-4 p-4 rounded-md border-b-4 border-red-500
     }
+
+    .focus-button {
+      @apply focus:bg-gray-900 py-0.5 px-1 rounded-md
+    }
   }

@@ -1,11 +1,12 @@
 import {
     Link
 } from "react-router-dom";
+import lip from '../images/lip.png'
 
 export default function Header() {
     return (
-        <div>
-            <nav className="flex items-center py-2 px-5 bg-gray-700 text-sm shadow-sm shadow-pink-500 text-indigo-100 ">
+        <div className="relative">
+            <nav className="flex items-center py-2 px-5 bg-gray-700 text-sm shadow-md shadow-gray-800 text-indigo-100 ">
 
                 <h1 className="font-bold">
                     <Link to="/">
@@ -13,21 +14,22 @@ export default function Header() {
                         <span>LipstickGeeks</span>
                     </Link>
                 </h1>
-
-                <ul className="flex gap-3 mx-4 ml-auto">
-                    <li className="">
-                        <Link to="/recommendation">推荐</Link>
-                    </li>
-                    <li className="">
-                        <Link to="/encyclopedia">百科</Link>
-                    </li>
-                    <li className="">
-                        <Link to="/community">社区</Link>
-                    </li>
-                </ul>
+                
+                <div className="flex gap-1 mx-4 ml-auto">
+                    <button className="">
+                        <Link to="/recommendation" className="focus-button">推荐</Link>
+                    </button>
+                    <button className="">
+                        <Link to="/encyclopedia" className="focus-button">百科</Link>
+                    </button>
+                    <button className="">
+                        <Link to="/community" className="focus-button">社区</Link>
+                    </button>
+                </div>
 
                 <a href="https://www.w3schools.com" className="border-b-2 border-b-red-500">Github</a>
             </nav>
+
         </div>
     )
 }

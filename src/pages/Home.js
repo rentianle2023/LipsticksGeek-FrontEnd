@@ -1,34 +1,31 @@
+import { LightningBoltIcon, BookOpenIcon, ChatAlt2Icon } from '@heroicons/react/outline'
+
 export default function Home() {
 
     return (
         <div>
-            <div className="bg-gray-800 text-indigo-100 ">
-                <div className="text-center py-5">
+            <div className="bg-gray-800 text-indigo-100 relative overflow-hidden">
+                <div className="text-center py-5 text-sm">
                     <div className="font-bold text-3xl m-2">LipstickGeeks</div>
                     <div>帮助选择困难的直男</div>
                     <div>挑选合适他女朋友的口红</div>
-                    <div className=" bg-red-500 rounded-lg text-white py-2 w-32 mx-auto mt-4">快速开始</div>
+                    <div className=" bg-red-500 rounded-lg text-white py-2 w-32 mx-auto mt-4 text-base">快速开始</div>
+                    <svg className='h-40 absolute opacity-30 -rotate-45 -right-12 bottom-5' t="1649252764265" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9319" ><path d="M275.95 508.83l-0.84 0.04h1.05zM746.48 508.87h1.07l-1.87-0.08z" p-id="9320" fill="#d81e06"></path><path d="M925.76 485.48c-110.66-10.23-251.7-371.8-415.54-117.45C346.37 113.68 205.33 475.25 94.67 485.48c100.57 135.85 461.42 477.24 833.32 0h-2.23z m-638.02 25.47h-0.03l-0.16-0.03c-8.01-1.25-12.44-2.05-12.44-2.05s0.15-0.05 0.39-0.12c0.65-0.2 2.2-0.67 4.51-1.35 8.15-2.38 25.94-7.35 48.92-12.37v-0.29h1.37c51.96-11.27 129.32-22.55 181.04-5.12 84.12-28.36 236.22 19.25 236.22 19.25-204.13 37.29-408.11 10.15-459.82 2.08z" p-id="9321" fill="#d81e06"></path></svg>
                 </div>
             </div>
 
             <main className="bg-gray-200 text-gray-900 pt-10 p-4">
                 <div className="font-bold text-2xl">功能</div>
                 <div className="flex-col-feature">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
+                    <LightningBoltIcon className='h-6 w-6' />
                     <p>快速推荐，解决礼物购买的燃眉之急</p>
                 </div>
                 <div className="flex-col-feature">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
+                    <BookOpenIcon className='h-6 w-6' />
                     <p>百科全书，学懂口红，让购买不再盲目，挑选最适合她的</p>
                 </div>
                 <div className="flex-col-feature">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-                    </svg>
+                    <ChatAlt2Icon className='h-6 w-6' />
                     <p>社区交流，让买口红的你，不再孤单</p>
                 </div>
 
