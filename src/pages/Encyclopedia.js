@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import api from '../api/brands'
 import Brand from "../components/Brand"
 import { SearchIcon } from "@heroicons/react/outline"
-import ModalWindow from "../components/ModalWindow"
 
 export default function Encyclopedia() {
 

@@ -29,7 +29,7 @@ export default function Lipstick(props) {
                     to={`/lipstick/${props.lipstick.id}`}
                     state={props.lipstick}
                 >
-                    <div className='absolute w-4/5 text-center left-1/2 top-1/2 -translate-x-1/2  bg-gray-800 text-indigo-100 opacity-75'>查看详情</div>
+                    <div className='absolute w-4/5 text-center left-1/2 top-1/2 -translate-x-1/2 bg-gray-800 text-indigo-100 opacity-75'>查看详情</div>
                 </Link>
             }
         </div>
