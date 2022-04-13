@@ -6,7 +6,7 @@ export default function Brand(props) {
         <div className="bg-slate-200 w-4/5 mx-auto text-center m-5 p-4 text-indigo-100 shadow-lg">
 
             <div>
-                <img src={props.brand.logoImage} className='h-20 mx-auto my-3' />
+                <img src={props.brand.logoImage} className='h-20 mx-auto my-3' alt='brand logo'/>
             </div>
             <div className="bg-gray-700 rounded-lg mt-5 mx-auto p-2 text-sm hover:bg-red-700 cursor-pointer">
                 <Link to={`/brand/${props.brand.id}`} >查看 {props.brand.name} 的口红色号</Link>

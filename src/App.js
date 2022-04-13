@@ -9,8 +9,7 @@ import BrandDetail from './pages/BrandDetail';
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import LipstickDetail from './pages/LipstickDetail';
 

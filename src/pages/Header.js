@@ -1,7 +1,6 @@
 import {
     Link
 } from "react-router-dom";
-import lip from '../images/lip.png'
 
 export default function Header() {
     return (

@@ -10,23 +10,16 @@ export default function BrandDetail() {
     const [lipsticks, setLipsticks] = useState()
 
     useEffect(() => {
-        const fetchBrands = async () => {
-            try {
-                const response = await api.get('/lipsticks/' + brandId)
-                setLipsticks(response.data)
-            } catch (err) {
-                //Not in the 200 response range
-            }
-        }
-        fetchBrands()
-    }, [])
+        api.get(brandId + "/lipsticks")
+            .then(res => setLipsticks(res.data))
+    }, [brandId])
 
 
     return (
         <div>
             {
                 lipsticks && lipsticks.map(lipstick => (
-                    <Lipstick lipstick={lipstick} />
+                    <Lipstick lipstick={lipstick} key={lipstick.id}/>
                 ))
             }
         </div>
