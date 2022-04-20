@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams,useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/lipsticks"
 import { ThumbUpIcon as ThumbUpIconOutline, ThumbDownIcon as ThumbDownIconOutline, StarIcon as StarIconOutline } from "@heroicons/react/outline";
@@ -6,15 +6,25 @@ import { ThumbUpIcon as ThumbUpIconSolid, ThumbDownIcon as ThumbDownIconSolid, S
 
 export default function LipstickDetail() {
 
-    const [lipstick, setLipstick] = useState()
-    const [currentColor, setCurrentColor] = useState("")
+    const [lipstick, setLipstick] = useState({
+        'name' : '',
+        'price' : '',
+        'imageUrl' : '',
+        'colors' : []
+    })
+    const [currentColor, setCurrentColor] = useState({
+        "name" : "",
+    })
+    const [searchParam, setSearchParam] = useSearchParams()
 
     const lipstickId = useParams().lipstickId
+    const colorId = searchParam.get('color')
     useEffect(() => {
+        
         api.get("/" + lipstickId)
             .then(res => {
                 setLipstick(res.data)
-                setCurrentColor(res.data.colors ? res.data.colors[0] : null)
+                setCurrentColor(colorId ? res.data.colors.find(color => color.id.toString() === colorId) : res.data.colors[0])
             })
     }, [lipstickId])
 
@@ -59,9 +69,9 @@ export default function LipstickDetail() {
 
 
     return (
-        <div className="p-5">
-            {lipstick && <div className="border-2 border-gray-900 text-sm text-center p-4" >
-                <img src={lipstick.imageUrl} className='w-full gap-3' alt="lipstick" />
+        <div className="p-5 flex flex-col justify-center items-center sm:flex-row sm:gap-5">
+            <div className="border-2 border-gray-900 text-sm text-center p-4 w-80 " >
+                <img src={lipstick.imageUrl} className='w-full' alt="lipstick" />
                 <div>{lipstick.name} - {lipstick.price}</div>
                 {currentColor && <div className="mt-4">当前色号 ： {currentColor.name}</div>}
                 <div className="flex justify-center mt-3 gap-2">
@@ -75,14 +85,13 @@ export default function LipstickDetail() {
                         <StarIconSolid className="w-5 h-5 ml-0.5" onClick={toggleFavorite} /> :
                         <StarIconOutline className="w-5 h-5 ml-0.5" onClick={toggleFavorite} />}
                 </div>
-            </div>}
-            {lipstick && lipstick.colors && <div className="h-40 flex overflow-y-auto mt-3 flex-wrap">
+            </div>
+            <div className="w-80 flex overflow-y-auto mt-3 flex-wrap">
                 {
                     lipstick.colors.map(color => {
-                        const border = color.name === currentColor.name ? "0.3em solid black" : ""
                         const style = {
                             "backgroundColor": color.hexColor,
-                            "border": border
+                            "border": color.name === currentColor.name ? "0.3em solid black" : ""
                         }
                         return (
                             <div className="w-1/4 h-8 p-1">
@@ -91,7 +100,7 @@ export default function LipstickDetail() {
                         )
                     })
                 }
-            </div>}
+            </div>
         </div >
     )
 }

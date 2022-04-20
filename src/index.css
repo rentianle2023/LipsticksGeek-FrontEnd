@@ -18,6 +18,14 @@ html, body {
     }
 
     .focus-button {
-      @apply focus:bg-gray-900 py-0.5 px-1 rounded-md
+      @apply bg-gray-900 py-0.5 px-1 rounded-md
+    }
+
+    .button {
+      @apply py-0.5 px-1 rounded-md cursor-pointer
+    }
+
+    .input {
+      @apply w-full p-2 border border-gray-400 rounded-lg
     }
   }

@@ -5,6 +5,7 @@ import Recommendation from './pages/Recommendation';
 import Encyclopedia from './pages/Encyclopedia';
 import Community from './pages/Community';
 import BrandDetail from './pages/BrandDetail';
+import {UserContextProvider} from './context/UserContextProvider';
 
 import {
   BrowserRouter as Router,
@@ -15,24 +16,28 @@ import LipstickDetail from './pages/LipstickDetail';
 
 function App() {
   return (
-    <Router>
-      <Header />
+    <UserContextProvider>
+      <Router>
+        <Header />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/recommendation" element={<Recommendation />} />
+        <main className='mt-16'>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/recommendation" element={<Recommendation />} />
 
-        <Route path="/encyclopedia" element={<Encyclopedia />} />
-        
-        <Route path='/brand/:brandId' element={<BrandDetail />} />
+            <Route path="/encyclopedia" element={<Encyclopedia />} />
 
-        <Route path='/lipstick/:lipstickId' element={<LipstickDetail />} />
+            <Route path='/brand/:brandId' element={<BrandDetail />} />
 
-        <Route path="/community" element={<Community />} />
-      </Routes>
+            <Route path='/lipstick/:lipstickId' element={<LipstickDetail />} />
 
-      <Footer />
-    </Router>
+            <Route path="/community" element={<Community />} />
+          </Routes>
+        </main>
+
+        <Footer />
+      </Router>
+    </UserContextProvider>
   );
 }
 
