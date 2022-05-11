@@ -5,39 +5,37 @@ import Recommendation from './pages/Recommendation';
 import Encyclopedia from './pages/Encyclopedia';
 import Community from './pages/Community';
 import BrandDetail from './pages/BrandDetail';
-import {UserContextProvider} from './context/UserContextProvider';
-
+import UserSpace from './pages/UserSpace';
 import {
-  BrowserRouter as Router,
   Routes,
   Route
 } from "react-router-dom";
 import LipstickDetail from './pages/LipstickDetail';
 
 function App() {
+
+
   return (
-    <UserContextProvider>
-      <Router>
-        <Header />
+    <div>
+      <Header />
+      <main className='mt-16'>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/recommendation" element={<Recommendation />} />
 
-        <main className='mt-16'>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/recommendation" element={<Recommendation />} />
+          <Route path="/encyclopedia" element={<Encyclopedia />} />
 
-            <Route path="/encyclopedia" element={<Encyclopedia />} />
+          <Route path='/brand/:brandId' element={<BrandDetail />} />
 
-            <Route path='/brand/:brandId' element={<BrandDetail />} />
+          <Route path='/lipstick/:lipstickId' element={<LipstickDetail />} />
 
-            <Route path='/lipstick/:lipstickId' element={<LipstickDetail />} />
+          <Route path="/community" element={<Community />} />
 
-            <Route path="/community" element={<Community />} />
-          </Routes>
-        </main>
-
-        <Footer />
-      </Router>
-    </UserContextProvider>
+          <Route path="/user/:username" element={<UserSpace />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
   );
 }
 

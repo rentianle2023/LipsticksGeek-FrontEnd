@@ -1,7 +1,9 @@
+import ChatRoom from "../components/ChatRoom"
+
 export default function Community(){
     return (
         <div>
-            community
+            <ChatRoom />
         </div>
     )
 }

@@ -1,26 +1,27 @@
-import { useParams,useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
 import api from "../api/lipsticks"
-import { ThumbUpIcon as ThumbUpIconOutline, ThumbDownIcon as ThumbDownIconOutline, StarIcon as StarIconOutline } from "@heroicons/react/outline";
-import { ThumbUpIcon as ThumbUpIconSolid, ThumbDownIcon as ThumbDownIconSolid, StarIcon as StarIconSolid } from "@heroicons/react/solid";
+import { StarIcon as StarIconOutline } from "@heroicons/react/outline";
+import { StarIcon as StarIconSolid } from "@heroicons/react/solid";
+import { UserContext } from "../context/UserContextProvider";
 
 export default function LipstickDetail() {
 
     const [lipstick, setLipstick] = useState({
-        'name' : '',
-        'price' : '',
-        'imageUrl' : '',
-        'colors' : []
+        'name': '',
+        'price': '',
+        'imageUrl': '',
+        'colors': []
     })
     const [currentColor, setCurrentColor] = useState({
-        "name" : "",
+        "name": "",
     })
     const [searchParam, setSearchParam] = useSearchParams()
-
     const lipstickId = useParams().lipstickId
     const colorId = searchParam.get('color')
+
     useEffect(() => {
-        
+
         api.get("/" + lipstickId)
             .then(res => {
                 setLipstick(res.data)
@@ -28,62 +29,22 @@ export default function LipstickDetail() {
             })
     }, [lipstickId])
 
-    const [thumbUp, setThumbUp] = useState(false)
-    const [thumbDown, setThumbDown] = useState(false)
-    const [favorite, setFavorite] = useState(false)
-
-    function toggleThumbUp() {
-        setThumbUp(prevState => {
-            if (prevState === false) {
-                localStorage.setItem(currentColor.name, 'up');
-                if (thumbDown) setThumbDown(false)
-            } else localStorage.removeItem(currentColor.name);
-            return !prevState
-        })
-    }
-    function toggleThumbDown() {
-        setThumbDown(prevState => {
-            if (prevState === false) {
-                localStorage.setItem(currentColor.name, 'down');
-                if (thumbUp) setThumbUp(false)
-            }
-            else localStorage.removeItem(currentColor.name);
-            return !prevState
-        })
-    }
-    function toggleFavorite() {
-        setFavorite(prevState => {
-            if (prevState === false) localStorage.setItem(currentColor.id, 'true');
-            else localStorage.removeItem(currentColor.id);
-            return !prevState
-        })
-    }
+    const { favorite, addFavorite, removeFavorite } = useContext(UserContext)
 
     function changeCurrentColor(newColor) {
-        localStorage.getItem(newColor.name) === 'up' ? setThumbUp(true) : setThumbUp(false)
-        localStorage.getItem(newColor.name) === 'down' ? setThumbDown(true) : setThumbDown(false)
-        localStorage.getItem(newColor.id) === 'true' ? setFavorite(true) : setFavorite(false)
-
         setCurrentColor(newColor)
     }
 
-
     return (
         <div className="p-5 flex flex-col justify-center items-center sm:flex-row sm:gap-5">
-            <div className="border-2 border-gray-900 text-sm text-center p-4 w-80 " >
+            <div className="border-2 border-gray-900 rounded-lg text-sm text-center p-4 w-80 " >
                 <img src={lipstick.imageUrl} className='w-full' alt="lipstick" />
                 <div>{lipstick.name} - {lipstick.price}</div>
                 {currentColor && <div className="mt-4">当前色号 ： {currentColor.name}</div>}
                 <div className="flex justify-center mt-3 gap-2">
-                    {thumbUp ?
-                        <ThumbUpIconSolid className="w-5 h-5" onClick={toggleThumbUp} /> :
-                        <ThumbUpIconOutline className="w-5 h-5" onClick={toggleThumbUp} />}
-                    {thumbDown ?
-                        <ThumbDownIconSolid className="w-5 h-5" onClick={toggleThumbDown} /> :
-                        <ThumbDownIconOutline className="w-5 h-5" onClick={toggleThumbDown} />}
-                    {favorite ?
-                        <StarIconSolid className="w-5 h-5 ml-0.5" onClick={toggleFavorite} /> :
-                        <StarIconOutline className="w-5 h-5 ml-0.5" onClick={toggleFavorite} />}
+                    {favorite.some(fav => fav.id === currentColor.id) ?
+                        <StarIconSolid className="w-7 h-7 fill-yellow-400" onClick={() => removeFavorite(currentColor)} /> :
+                        <StarIconOutline className="w-7 h-7" onClick={() => addFavorite(currentColor)} />}
                 </div>
             </div>
             <div className="w-80 flex overflow-y-auto mt-3 flex-wrap">

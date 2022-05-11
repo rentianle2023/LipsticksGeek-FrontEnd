@@ -10,18 +10,20 @@ export default function Lipstick(props) {
     }
 
     return (
-        <div className="border-2 border-gray-900 p-4 m-2 relative" onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
-            <img src={props.lipstick.imageUrl} className='w-full' alt='lipstick'/>
-            <div>{props.lipstick.name} - {props.lipstick.price}</div>
-            <div className="flex overflow-x-auto">
-                {
-                    props.lipstick.colors && props.lipstick.colors.map(color => {
-                        const style = {
-                            "backgroundColor": color.hexColor
-                        }
-                        return <div className="w-5 h-5 rounded-full shrink-0" style={style} key={color.id}></div>
-                    })
-                }
+        <div className="relative" onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+            <img src={props.lipstick.imageUrl} className='w-full border-2 border-gray-900 rounded-lg p-5' alt='lipstick' />
+            <div className='mt-2 text-center'>{props.lipstick.name} - {props.lipstick.price}</div>
+            <div className='w-full px-4'>
+                <div className="mt-2 flex overflow-x-auto">
+                    {
+                        props.lipstick.colors && props.lipstick.colors.map(color => {
+                            const style = {
+                                "backgroundColor": color.hexColor
+                            }
+                            return <div className="w-5 h-5 rounded-full shrink-0 " style={style} key={color.id}></div>
+                        })
+                    }
+                </div>
             </div>
             {
                 hover &&

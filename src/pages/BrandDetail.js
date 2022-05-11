@@ -6,22 +6,27 @@ import Lipstick from "../components/Lipstick"
 
 export default function BrandDetail() {
 
-    const brandId = useParams().brandId
+    const { brandId } = useParams()
     const [lipsticks, setLipsticks] = useState()
 
     useEffect(() => {
+        console.log("fetch")
         api.get(brandId + "/lipsticks")
             .then(res => setLipsticks(res.data))
     }, [brandId])
 
 
     return (
-        <div>
+        <div className="sm:flex sm:flex-row sm:flex-wrap ">
             {
                 lipsticks && lipsticks.map(lipstick => (
-                    <Lipstick lipstick={lipstick} key={lipstick.id}/>
+                    <div className="sm:w-1/3 p-8">
+                        <Lipstick lipstick={lipstick} key={lipstick.id} />
+                    </div>
                 ))
             }
+
+
         </div>
     )
 }

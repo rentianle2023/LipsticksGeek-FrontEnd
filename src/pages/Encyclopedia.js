@@ -11,15 +11,11 @@ export default function Encyclopedia() {
     const [brands, setBrands] = useState([])
     const [showSearchModal, setShowSearchModal] = useState(false)
     const [showColorModal, setShowColorModal] = useState(false)
-
+    
     useEffect(() => {
         api.get()
             .then(res => setBrands(res.data))
     }, [])
-
-    function onModalClick(e) {
-        e.stopPropagation()
-    }
 
     return (
         <div>
