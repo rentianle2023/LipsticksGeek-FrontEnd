@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import { UserContext } from '../context/UserContextProvider';
@@ -8,14 +8,16 @@ var stompClient = null
 export default function ChatRoom(props) {
 
     const { user, setShowLoginModal } = useContext(UserContext)
-    const [publicMessages, setPublicMessages] = useState([])
-    const [privateMessages, setPrivateMessages] = useState(new Map())
+    const [publicChats, setPublicChats] = useState([])
+    const [privateChats, setPrivateChats] = useState(new Map())
+    const [currentChat, setCurrentChat] = useState("CHATROOM")
     const [formData, setFormData] = useState({
         data: "",
         sender: "",
         receiver: "",
         status: ""
     })
+    console.log(privateChats)
 
     useEffect(() => {
         if (user) {
@@ -31,10 +33,19 @@ export default function ChatRoom(props) {
 
     const onConnected = () => {
         stompClient.subscribe('/chatroom/public', onMessageReceived);
-        stompClient.subscribe('/user/' + user.username + '/private', onPrivateMessage);
+        stompClient.subscribe('/user/' + user.username + '/private', onPrivateMessageReceived);
 
         setFormData({ ...formData, "sender": user.username });
         userJoin();
+    }
+
+    const addPrivateChat = (username) => {
+        if (!privateChats.has(username)) {
+            console.log("add")
+            privateChats.set(username, [])
+            setPrivateChats(new Map(privateChats))
+        }
+        setCurrentChat(username)
     }
 
     const userJoin = () => {
@@ -52,24 +63,43 @@ export default function ChatRoom(props) {
     const onMessageReceived = (payload) => {
         const message = JSON.parse(payload.body)
 
-        setPublicMessages(prevMessages => {
+        setPublicChats(prevMessages => {
             return [...prevMessages, message]
         })
     }
 
-    const onPrivateMessage = (payload) => {
+    const onPrivateMessageReceived = (payload) => {
+
         const message = JSON.parse(payload.body)
-        console.log("private " + message)
+        console.log(message)
+        if (!privateChats.has(message.sender)) {
+            var list = []
+            list.push(message)
+            privateChats.set(message.sender, list)
+            setPrivateChats(new Map(privateChats))
+        } else {
+            privateChats.get(message.sender).push(message)
+            setPrivateChats(new Map(privateChats))
+        }
     }
 
     const sendMessage = () => {
-
-        if (!user) return
-
-        stompClient.send("/chat/message", {}, JSON.stringify({
-            ...formData,
-            status: "MESSAGE"
-        }))
+        if (currentChat === "CHATROOM") {
+            //公共频道
+            stompClient.send("/chat/message", {}, JSON.stringify({
+                ...formData,
+                status: "MESSAGE"
+            }))
+        } else {
+            //私人频道
+            stompClient.send("/chat/private-message", {}, JSON.stringify({
+                ...formData,
+                receiver: currentChat,
+                status: "MESSAGE"
+            }))
+            privateChats.get(currentChat).push({ ...formData, status: "MESSAGE" })
+            setPrivateChats(new Map(privateChats))
+        }
         setFormData(prevFormData => ({
             ...prevFormData,
             data: ""
@@ -86,24 +116,44 @@ export default function ChatRoom(props) {
         })
     }
 
+    const scrollToBottom = useRef();
+
+    useEffect(() => {
+        scrollToBottom.current.scrollTop = scrollToBottom.current.scrollHeight
+    },[privateChats,publicChats])
+
     return (
         <div className='flex w-full h-full'>
-            <div className='flex flex-col flex-nowrap w-1/5 p-4 gap-2 text-white '>
-                <div className='bg-purple-700 shadow-lg p-1'>公共频道</div>
+            <div className='flex flex-col flex-nowrap w-1/5 p-2 gap-2 text-white '>
+                <div className={`shadow-lg p-0.5 rounded-lg ${currentChat === "CHATROOM" ? 'bg-purple-400' : 'bg-purple-700 '}`} onClick={() => setCurrentChat("CHATROOM")}>公共频道</div>
+                {Array.from(privateChats.keys()).map((name) => (
+                    <div className={`shadow-lg p-0.5 rounded-lg ${currentChat === name ? 'bg-purple-400' : 'bg-purple-700 '}`} onClick={() => setCurrentChat(name)}>
+                        {name}
+                    </div>
+                ))}
             </div>
             <div className='w-4/5 h-full p-5 '>
-                <div className='h-80 overflow-y-auto ring-black ring-1 p-3 flex flex-col'>
+                <div className='h-80 overflow-y-scroll ring-black ring-1 p-3 flex flex-col' ref={scrollToBottom}>
                     {!user &&
                         <div className='self-center justify-self-center text-purple-700 font-bold '>
                             请先<span className='underline cursor-pointer' onClick={() => setShowLoginModal(true)}>登录/注册</span>
                         </div>}
                     {
-                        publicMessages.map(message => {
+                        currentChat === "CHATROOM" && publicChats.map(message => {
+                            if (message.status == "MESSAGE") {
+                                return <Message data={message.data} sender={message.sender} addPrivateChat={addPrivateChat} />
+                            } else if (message.status == "JOIN") {
+                                return <div className='text-xs bg-gray-200 rounded-lg mt-2 p-0.5'>{message.sender}加入公共频道</div>
+                            }
+                        })
+                    }
+                    {
+                        currentChat !== "CHATROOM" && privateChats.get(currentChat).map(message => {
                             if (message.status == "MESSAGE") {
                                 return <Message data={message.data} sender={message.sender} />
                             } else if (message.status == "JOIN") {
                                 return <div className='text-xs bg-gray-200 rounded-lg mt-2 p-0.5'>{message.sender}加入公共频道</div>
-                            } 
+                            }
                         })
                     }
                 </div>

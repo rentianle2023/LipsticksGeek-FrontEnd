@@ -1,14 +1,12 @@
-import { useContext, useState } from 'react'
+import { useContext, useState,useRef } from 'react'
 import { UserContext } from '../context/UserContextProvider';
 import userApi from '../api/users'
-import UserDetailModal from './UserDetailModal';
 
 export default function Message(props) {
 
     const { user } = useContext(UserContext)
 
-    const [showModal, setShowModal] = useState(false)
-
+    const [hover, setHover] = useState(false)
     const [userInfo, setUserInfo] = useState({
         id: '',
         username: '',
@@ -18,28 +16,65 @@ export default function Message(props) {
     })
 
     const handleClick = () => {
-        console.log(userInfo.avatar)
         userApi.get(`/${props.sender}`)
             .then(res => {
                 setUserInfo(res.data)
-                setShowModal(true)
             })
+    }
+
+    const timerRef = useRef(null);
+
+    const onMouseEnter = () => {
+        if(props.sender === user.username) return
+        timerRef.current = setTimeout(() => { 
+            userApi.get(`/${props.sender}`)
+                .then(res => {
+                    setUserInfo(res.data)
+                })
+            setHover(true)
+        }, 300);
+    }
+
+    const onMouseLeave = () => {
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+        }
+        setHover(false)
+    }
+
+    const enterUserSpace = () => {
+
+    }
+
+    const addPrivateChat = () => {
+        props.addPrivateChat(props.sender)
     }
 
     return (
         <div>
             <div className={`flex gap-3 mt-2 z-10  ${props.sender === user.username ? 'justify-end' : ''}`} >
                 <div
-                    className={`bg-gray-200 rounded-lg p-2 relative cursor-pointer ${props.sender === user.username ? 'order-last' : ''}`}
+                    className={`bg-gray-200 rounded-lg p-2 relative  ${props.sender === user.username ? 'order-last' : ''}`}
                     onClick={handleClick}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
                 >
-                    {props.sender}  
+                    <div className='cursor-pointer'>{props.sender}</div>
+                    {hover &&
+                        <div className='absolute m-1 h-40 w-32 bg-gray-300 z-10 p-1 rounded-lg ring-black ring-2'>
+                            <img className='w-10 h-10' src={userInfo.avatar} />
+                            <div>id : {userInfo.id}
+                                <span className='text-red-500'>{userInfo.roles && userInfo.roles.some(role => role.id === 2) ? "管理员" : ''}</span>
+                            </div>
+                            <div>{userInfo.username}</div>
+
+                            <div className='button bg-gray-500' onClick={enterUserSpace}>进入空间</div>
+                            <div className='button bg-gray-500 mt-2' onClick={addPrivateChat}>私聊</div>
+                        </div>
+                    }
                 </div>
                 <div className='bg-green-500 rounded-lg p-2'>{props.data}</div>
             </div>
-            {
-                showModal && <UserDetailModal closeModal={() => setShowModal(false)} userInfo={userInfo}/>
-            }
         </div>
     )
 }
