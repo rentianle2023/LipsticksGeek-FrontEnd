@@ -4,6 +4,7 @@ import { UserContext } from "../context/UserContextProvider";
 import loginApi from '../api/login'
 import userApi from '../api/users'
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as GithubSvg } from '../svg/github.svg'
 
 export default function LoginModal(props) {
 
@@ -180,6 +181,11 @@ export default function LoginModal(props) {
                     </div>
 
                 }
+            </div>
+            <div className="bg-gray-200 rounded-lg p-1">
+                <a href={'https://github.com/login/oauth/authorize?client_id=18f418c2e09be764aa9e&redirect_uri=http://localhost:3000/oauth2/redirect/GITHUB&scope=user'}>
+                    <GithubSvg className='w-5 h-5 inline-block'/><span className="text-xs"> github登录</span>
+                </a>
             </div>
         </Modal>
     )

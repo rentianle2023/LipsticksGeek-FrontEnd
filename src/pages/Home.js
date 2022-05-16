@@ -4,6 +4,7 @@ export default function Home() {
 
     return (
         <div >
+            {process.env.REACT_APP_URL}
             <div className="bg-gray-800 text-indigo-100 relative overflow-hidden">
                 <div className="text-center py-5 text-sm">
                     <div className="font-bold text-3xl m-2">LipstickGeeks</div>

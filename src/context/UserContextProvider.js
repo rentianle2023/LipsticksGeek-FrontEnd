@@ -10,6 +10,7 @@ function UserContextProvider(props) {
     const [showLoginModal, setShowLoginModal] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [favorite, setFavorite] = useState([])
+    const [firstLoad, setFirstLoad] = useState(true)
 
     function fetchUser() {
         api.get("")
@@ -27,6 +28,12 @@ function UserContextProvider(props) {
     }
 
     function addFavorite(color) {
+        if(!localStorage.getItem('token')){
+            console.log("no token")
+            setShowLoginModal(true)
+            return
+        }
+
         api.post("/favorite",
             {
                 "colorId": color.id
@@ -34,7 +41,7 @@ function UserContextProvider(props) {
         ).then(res => setFavorite(prev => {
             res.data.createTime = new Date(res.data.createTime).toLocaleString()
             return [res.data, ...prev]
-        }))
+        })).catch(() => setShowLoginModal(true))
     }
 
     function removeFavorite(color) {
@@ -49,7 +56,7 @@ function UserContextProvider(props) {
 
     useEffect(() => {
         fetchUser()
-    }, [])
+    },[])
 
     useEffect(() => {
         fetchFavorite()
@@ -57,9 +64,7 @@ function UserContextProvider(props) {
 
     return (
         <UserContext.Provider value={{ user, setUser, fetchUser, showLoginModal, setShowLoginModal, isLoading, setIsLoading, favorite, addFavorite, removeFavorite }}>
-            <WithAxios>
                 {props.children}
-            </WithAxios>
         </UserContext.Provider>
     )
 }

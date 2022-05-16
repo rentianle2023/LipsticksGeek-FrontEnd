@@ -6,6 +6,7 @@ import Encyclopedia from './pages/Encyclopedia';
 import Community from './pages/Community';
 import BrandDetail from './pages/BrandDetail';
 import UserSpace from './pages/UserSpace';
+import OAuth2RedirectHandler from './components/OAuth2RedirectHandler';
 import {
   Routes,
   Route
@@ -32,6 +33,8 @@ function App() {
           <Route path="/community" element={<Community />} />
 
           <Route path="/user/:username" element={<UserSpace />} />
+
+          <Route path="/oauth2/redirect/:provider" element={<OAuth2RedirectHandler />} />
         </Routes>
       </main>
       <Footer />

@@ -16,8 +16,9 @@ export default function LipstickDetail() {
     const [currentColor, setCurrentColor] = useState({
         "name": "",
     })
+    
+    const {lipstickId} = useParams()
     const [searchParam, setSearchParam] = useSearchParams()
-    const lipstickId = useParams().lipstickId
     const colorId = searchParam.get('color')
 
     useEffect(() => {
