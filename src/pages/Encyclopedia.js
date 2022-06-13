@@ -11,7 +11,7 @@ export default function Encyclopedia() {
     const [brands, setBrands] = useState([])
     const [showSearchModal, setShowSearchModal] = useState(false)
     const [showColorModal, setShowColorModal] = useState(false)
-    
+
     useEffect(() => {
         api.get()
             .then(res => setBrands(res.data))
@@ -31,9 +31,11 @@ export default function Encyclopedia() {
                     <span>颜色匹配</span>
                 </div>
             </div>
-            <div className="text-center text-indigo-100 flex flex-col items-center justify-center sm:flex-row flex-wrap">
+            <div className="text-center text-indigo-100 flex flex-col sm:flex-row flex-wrap">
                 {brands.map(brand => (
-                    <Brand brand={brand} key={brand.id}/>
+                    <div className="sm:w-1/2">
+                        <Brand brand={brand} key={brand.id} />
+                    </div>
                 ))}
             </div>
         </div>

@@ -28,7 +28,10 @@ export default function UserDropDown() {
             {
                 showDropDown && <div className="mt-3 p-1 bg-gray-600 flex flex-col w-20 static sm:absolute sm:mt-5">
                         <Link to={`/user/${user.username}`}>个人空间</Link>
-                        <div className="h-0.5 my-1 bg-gray-400"></div>
+                        
+                        {
+                            user.roles.some((role) => role.role === "ADMIN") && <Link to={`/management`}>口红管理</Link>
+                        }
                         <div onClick={handleLogout} className='cursor-pointer'>退出</div>
                     </div>
             }

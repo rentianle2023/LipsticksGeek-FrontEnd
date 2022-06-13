@@ -17,7 +17,7 @@ export default function BrandDetail() {
 
 
     return (
-        <div className="sm:flex sm:flex-row sm:flex-wrap ">
+        <div className="sm:flex sm:flex-row sm:flex-wrap items-stretch ">
             {
                 lipsticks && lipsticks.map(lipstick => (
                     <div className="sm:w-1/3 p-8">

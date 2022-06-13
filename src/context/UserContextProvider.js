@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import WithAxios from "./WithAxios"
+// import WithAxios from "./WithAxios"
 import api from '../api/users'
 
 const UserContext = React.createContext()
@@ -10,7 +10,6 @@ function UserContextProvider(props) {
     const [showLoginModal, setShowLoginModal] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [favorite, setFavorite] = useState([])
-    const [firstLoad, setFirstLoad] = useState(true)
 
     function fetchUser() {
         api.get("")
@@ -41,7 +40,11 @@ function UserContextProvider(props) {
         ).then(res => setFavorite(prev => {
             res.data.createTime = new Date(res.data.createTime).toLocaleString()
             return [res.data, ...prev]
-        })).catch(() => setShowLoginModal(true))
+        })).catch((error) => {
+            if(error.response.status === 403){
+                setShowLoginModal(true)
+            }
+        })
     }
 
     function removeFavorite(color) {
@@ -53,6 +56,11 @@ function UserContextProvider(props) {
             prev.filter(fav => fav.id !== color.id)
         )))
     }
+
+    // const function quit(){
+    //     clearToken
+    //     clearUser
+    // }
 
     useEffect(() => {
         fetchUser()

@@ -1,9 +1,11 @@
 import ChatRoom from "../components/ChatRoom"
+import CommentsBoard from "../components/CommentsBoard"
 
-export default function Community(){
+export default function Community() {
     return (
-        <div>
+        <div className=" mx-5 py-5">
             <ChatRoom />
+            <CommentsBoard />
         </div>
     )
 }

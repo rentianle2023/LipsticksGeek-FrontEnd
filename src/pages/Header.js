@@ -5,7 +5,8 @@ import { MenuIcon } from '@heroicons/react/outline'
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../context/UserContextProvider";
 import LoginModal from "../components/LoginModal";
-import UserDropDown from "../components/UserDropDown";
+import { StarIcon } from "@heroicons/react/solid";
+import { ReactComponent as GithubSvg } from '../svg/github.svg'
 
 
 export default function Header() {
@@ -13,7 +14,7 @@ export default function Header() {
 
     const location = useLocation()
     const { user, showLoginModal, setShowLoginModal, setIsLoading } = useContext(UserContext)
-    
+
     function toggleMenu() {
         setShowMenu(prevState => !prevState)
     }
@@ -25,12 +26,18 @@ export default function Header() {
         }, 1500)
     }, [location])
 
-    const pages = [
+    const [pages,setPages] = useState([
         { path: '/', name: '首页' },
         { path: '/recommendation', name: '推荐' },
         { path: '/encyclopedia', name: '百科' },
         { path: '/community', name: '社区' }
-    ]
+    ])
+
+    useEffect(() => {
+        if(user && user.roles.some(role => role.role === "ADMIN")){
+            setPages([...pages,{path:'/management',name:'管理'}])
+        }
+    },[user])
 
     const pageElement = pages.map(page => (
         <Link
@@ -56,24 +63,23 @@ export default function Header() {
                 <div className="hidden sm:flex sm:gap-1 sm:mx-4 ">
                     {pageElement}
                 </div>
-                <div className="hidden ml-auto sm:flex">
+                <div className="flex gap-5 ml-auto">
                     {
-                        user ? <UserDropDown />
-                            : <div className="button mx-4" onClick={() => setShowLoginModal(true)}>登录/注册</div>
+                        user ? <Link to={`/user/${user.username}`}><StarIcon className="w-6 h-6 cursor-pointer"/></Link>
+                            : <div className="button mx-2" onClick={() => setShowLoginModal(true)}>登录/注册</div>
                     }
-                    <a href="https://www.w3schools.com" className="border-b-2 border-b-red-500">Github</a>
+                    <a href="https://www.w3schools.com" className="">
+                        <GithubSvg className='w-6 h-6 inline-block fill-white' />
+                    </a>
+
+                    <MenuIcon className="h-5 sm:hidden" onClick={toggleMenu} />
                 </div>
 
-                <MenuIcon className="h-5 w-10 sm:hidden ml-auto" onClick={toggleMenu} />
+
             </nav>
             {
                 showMenu && <div className="flex flex-col gap-2 p-2 text-indigo-100 text-sm sm:hidden">
                     {pageElement}
-                    {
-                        user ? <UserDropDown />
-                            : <div className="button" onClick={() => setShowLoginModal(true)}>登录/注册</div>
-                    }
-                    <a href="https://www.w3schools.com" >Github</a>
                 </div>
             }
 

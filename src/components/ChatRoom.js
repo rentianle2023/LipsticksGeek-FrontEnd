@@ -26,7 +26,7 @@ export default function ChatRoom(props) {
     }, [user])
 
     const connect = () => {
-        const Sock = new SockJS("http://192.168.101.19:8080/ws")
+        const Sock = new SockJS(`${process.env.REACT_APP_URL}/ws`)
         stompClient = over(Sock)
         stompClient.connect({}, onConnected, onError)
     }

@@ -14,7 +14,7 @@ html, body {
 
 @layer components {
     .flex-col-feature {
-      @apply flex flex-col items-center gap-2 bg-gray-100 mt-4 p-4 rounded-md border-b-4 border-red-500
+      @apply flex flex-col items-center justify-center gap-2 bg-gray-100 mt-4 p-4 rounded-md border-b-4 border-red-500
     }
 
     .focus-button {

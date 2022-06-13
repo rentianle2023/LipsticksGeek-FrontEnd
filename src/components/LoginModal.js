@@ -32,18 +32,18 @@ export default function LoginModal(props) {
     }
 
     function handleLogin() {
-        const {username, password} = formData
-        if(!username || username.length === 0){
+        const { username, password } = formData
+        if (!username || username.length === 0) {
             setErrorMessage("用户名不能位空")
             return
-        }else if(!password || password.length === 0){
+        } else if (!password || password.length === 0) {
             setErrorMessage("密码不能位空")
             return
         }
 
         loginApi.post("", {
-            username : formData.username,
-            password : formData.password
+            username: formData.username,
+            password: formData.password
         })
             .then(res => localStorage.setItem("token", res.headers["authorization"]))
             .then(() => fetchUser())
@@ -68,7 +68,7 @@ export default function LoginModal(props) {
         setLoginMode(true)
     }
 
-    function reset(){
+    function reset() {
         setRegisterMode(false)
         setForgotMode(false)
         setLoginMode(false)
@@ -82,24 +82,24 @@ export default function LoginModal(props) {
 
     function handleRegister() {
         var pattern = /^[a-zA-Z0-9._-]{4,14}$/g;
-        if(!pattern.test(formData.username)){
+        if (!pattern.test(formData.username)) {
             setErrorMessage("用户名是由a～z的英文字母、0～9的数字、点、减号或下划线组成，长度为4～14个字符")
             return
         }
 
         pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g
-        if(!pattern.test(formData.email)){
+        if (!pattern.test(formData.email)) {
             setErrorMessage("电子邮件地址不合法")
             return
         }
-        
+
         setErrorMessage("")
         userApi.post("/register", formData)
-        .then(() => alert("注册成功"))
-        .then(() => toLogin())
-        .catch(e => {
-            setErrorMessage(e.response.data.message)
-        })
+            .then(() => alert("注册成功"))
+            .then(() => toLogin())
+            .catch(e => {
+                setErrorMessage(e.response.data.message)
+            })
     }
 
     return (
@@ -182,11 +182,12 @@ export default function LoginModal(props) {
 
                 }
             </div>
-            <div className="bg-gray-200 rounded-lg p-1">
-                <a href={'https://github.com/login/oauth/authorize?client_id=18f418c2e09be764aa9e&redirect_uri=http://localhost:3000/oauth2/redirect/GITHUB&scope=user'}>
-                    <GithubSvg className='w-5 h-5 inline-block'/><span className="text-xs"> github登录</span>
-                </a>
-            </div>
+            <a href={
+                `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_GITHUB_REDIRECT_URI}&scope=user`
+            }
+                className="bg-gray-200 rounded-lg p-1">
+                <GithubSvg className='w-5 h-5 inline-block' /><span className="text-xs"> github登录</span>
+            </a>
         </Modal>
     )
 }

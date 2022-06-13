@@ -4,7 +4,6 @@ export default function Home() {
 
     return (
         <div >
-            {process.env.REACT_APP_URL}
             <div className="bg-gray-800 text-indigo-100 relative overflow-hidden">
                 <div className="text-center py-5 text-sm">
                     <div className="font-bold text-3xl m-2">LipstickGeeks</div>
@@ -17,17 +16,19 @@ export default function Home() {
 
             <main className="bg-gray-200 text-gray-900 pt-10 p-4">
                 <div className="font-bold text-2xl">功能</div>
-                <div className="flex-col-feature">
-                    <LightningBoltIcon className='h-6 w-6' />
-                    <p>快速推荐，解决礼物购买的燃眉之急</p>
-                </div>
-                <div className="flex-col-feature">
-                    <BookOpenIcon className='h-6 w-6' />
-                    <p>百科全书，学懂口红，让购买不再盲目，挑选最适合她的</p>
-                </div>
-                <div className="flex-col-feature">
-                    <ChatAlt2Icon className='h-6 w-6' />
-                    <p>社区交流，让买口红的你，不再孤单</p>
+                <div className='sm:flex sm:gap-5'>
+                    <div className="flex-col-feature sm:basis-1/3">
+                        <LightningBoltIcon className='h-6 w-6' />
+                        <p>快速推荐，解决礼物购买的燃眉之急</p>
+                    </div>
+                    <div className="flex-col-feature sm:basis-1/3">
+                        <BookOpenIcon className='h-6 w-6' />
+                        <p>百科全书，学懂口红，让购买不再盲目，挑选最适合她的</p>
+                    </div>
+                    <div className="flex-col-feature sm:basis-1/3">
+                        <ChatAlt2Icon className='h-6 w-6' />
+                        <p>社区交流，让买口红的你，不再孤单</p>
+                    </div>
                 </div>
 
             </main>

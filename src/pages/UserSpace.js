@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function UserSpace() {
 
     const { username } = useParams()
-    const { user, favorite, removeFavorite } = useContext(UserContext)
+    const { user, setUser,favorite, removeFavorite } = useContext(UserContext)
     const navigate = useNavigate()
 
     function checkDetails(colorId) {
@@ -38,6 +38,12 @@ export default function UserSpace() {
         )
     })
 
+    function handleLogout(){
+        localStorage.setItem('token','')
+        setUser('')
+        navigate(0)
+    }
+
     return (
         <div className="text-xs">
             {user && user.username === username ? <div className="flex flex-col justify-center items-center bg-gray-200 p-3 sm:flex-row sm:items-start">
@@ -48,7 +54,7 @@ export default function UserSpace() {
                     </div>
                     <div className="flex flex-col">
                         <div>用户编号: {user.id}</div>
-                        <button className="button bg-gray-200">编辑个人信息</button>
+                        <button className="button bg-gray-400" onClick={handleLogout}>退出登录</button>
                     </div>
                 </div>
                 <div className="w-full sm:w-2/3 sm:mx-5">

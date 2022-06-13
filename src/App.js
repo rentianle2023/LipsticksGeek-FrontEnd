@@ -6,6 +6,7 @@ import Encyclopedia from './pages/Encyclopedia';
 import Community from './pages/Community';
 import BrandDetail from './pages/BrandDetail';
 import UserSpace from './pages/UserSpace';
+import Management from './pages/Management';
 import OAuth2RedirectHandler from './components/OAuth2RedirectHandler';
 import {
   Routes,
@@ -35,6 +36,8 @@ function App() {
           <Route path="/user/:username" element={<UserSpace />} />
 
           <Route path="/oauth2/redirect/:provider" element={<OAuth2RedirectHandler />} />
+
+          <Route path='/management' element={<Management/>}></Route>
         </Routes>
       </main>
       <Footer />
