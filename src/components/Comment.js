@@ -27,6 +27,8 @@ export default function Comment(props) {
                 setShowReplyInput(false)
                 window.alert("回复成功！")
                 props.addReply(id, res.data)
+            }).catch((e) => {
+                window.alert(e.response.data.message)
             })
     }
 

@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import LipstickManagementModal from './LipstickManagementModal';
+import ColorManagement from './ColorManagement';
+import colorApi from "../api/colors"
 
 export default function LipstickManagement(props) {
 
@@ -14,11 +16,21 @@ export default function LipstickManagement(props) {
 
     const deleteLipstick = () => {
         //axios delete
-        props.updateLipstick({...props.lipstick,active:false})
+        props.updateLipstick({ ...props.lipstick, active: false })
     }
 
     const recoverLipstick = () => {
-        props.updateLipstick({...props.lipstick,active:true})
+        props.updateLipstick({ ...props.lipstick, active: true })
+    }
+
+    const updateColor = (updatedColor) => {
+        colorApi.put("", updatedColor)
+            .then(() => {
+                const updatedColors = colors.map(color => color.id === updateColor.id ? updateColor : color)
+                props.updateLipstick({ ...props.lipstick, colors: updatedColors })
+                window.alert("更新成功！")
+                setShowLipstickModal(false)
+            })
     }
 
     return (
@@ -26,29 +38,26 @@ export default function LipstickManagement(props) {
             <div className='flex justify-between'>
                 <div>{id} - {name} - {price}</div>
                 <div className='flex gap-2 shrink-0 h-7 '>
-                    {active ? 
-                    <div className='button bg-green-600 text-white' onClick={editLipstick}>编辑</div> 
-                    : <div className='button bg-green-600 text-white' onClick={recoverLipstick}>已删除-恢复</div> 
+                    {active ?
+                        <div className='button bg-green-600 text-white' onClick={editLipstick}>编辑</div>
+                        : <div className='button bg-green-600 text-white' onClick={recoverLipstick}>已删除-恢复</div>
                     }
                     {active && <div className='button bg-red-600 text-white' onClick={deleteLipstick}>删除</div>}
                 </div>
             </div>
             <div className='flex gap-1 flex-wrap mt-2'>
                 {
-                    colors.map(color => {
-                        const style = {
-                            "backgroundColor": color.hexColor
-                        }
-                        return (
-                            <div className='w-20 h-20 text-sm text-gray-200' style={style}>{color.name}</div>
-                        )
-                    })
+                    colors.map(color => (
+                        <ColorManagement color={color} updateColor={updateColor} />
+                    ))
                 }
             </div>
 
             {
                 showLipstickModal && <LipstickManagementModal closeModal={() => setShowLipstickModal(false)} lipstick={props.lipstick} updateLipstick={props.updateLipstick} />
             }
+
+
         </div>
     )
 }

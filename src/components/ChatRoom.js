@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react'
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import { UserContext } from '../context/UserContextProvider';
-import Message from './Message';
+import ChatMessage from './ChatMessage';
 
 var stompClient = null
 export default function ChatRoom(props) {
@@ -17,7 +17,6 @@ export default function ChatRoom(props) {
         receiver: "",
         status: ""
     })
-    console.log(privateChats)
 
     useEffect(() => {
         if (user) {
@@ -28,7 +27,7 @@ export default function ChatRoom(props) {
     const connect = () => {
         const Sock = new SockJS(`${process.env.REACT_APP_URL}/ws`)
         stompClient = over(Sock)
-        stompClient.connect({}, onConnected, onError)
+        stompClient.connect({"Authorization" : localStorage.getItem('token')}, onConnected, onError)
     }
 
     const onConnected = () => {
@@ -120,14 +119,14 @@ export default function ChatRoom(props) {
 
     useEffect(() => {
         scrollToBottom.current.scrollTop = scrollToBottom.current.scrollHeight
-    },[privateChats,publicChats])
+    }, [privateChats, publicChats])
 
     return (
         <div className='flex w-full h-full'>
             <div className='flex flex-col flex-nowrap w-1/5 p-2 gap-2 text-white '>
-                <div className={`shadow-lg p-0.5 rounded-lg ${currentChat === "CHATROOM" ? 'bg-purple-400' : 'bg-purple-700 '}`} onClick={() => setCurrentChat("CHATROOM")}>公共频道</div>
+                <div className={`shadow-lg p-0.5 rounded-lg ${currentChat === "CHATROOM" ? 'bg-gray-600' : 'bg-gray-400 '}`} onClick={() => setCurrentChat("CHATROOM")}>公共频道</div>
                 {Array.from(privateChats.keys()).map((name) => (
-                    <div className={`shadow-lg p-0.5 rounded-lg ${currentChat === name ? 'bg-purple-400' : 'bg-purple-700 '}`} onClick={() => setCurrentChat(name)}>
+                    <div className={`shadow-lg p-0.5 rounded-lg ${currentChat === name ? 'bg-gray-600' : 'bg-gray-400 '}`} onClick={() => setCurrentChat(name)}>
                         {name}
                     </div>
                 ))}
@@ -139,22 +138,17 @@ export default function ChatRoom(props) {
                             请先<span className='underline cursor-pointer' onClick={() => setShowLoginModal(true)}>登录/注册</span>
                         </div>}
                     {
-                        currentChat === "CHATROOM" && publicChats.map(message => {
-                            if (message.status == "MESSAGE") {
-                                return <Message data={message.data} sender={message.sender} addPrivateChat={addPrivateChat} />
-                            } else if (message.status == "JOIN") {
-                                return <div className='text-xs bg-gray-200 rounded-lg mt-2 p-0.5'>{message.sender}加入公共频道</div>
-                            }
-                        })
-                    }
-                    {
-                        currentChat !== "CHATROOM" && privateChats.get(currentChat).map(message => {
-                            if (message.status == "MESSAGE") {
-                                return <Message data={message.data} sender={message.sender} />
-                            } else if (message.status == "JOIN") {
-                                return <div className='text-xs bg-gray-200 rounded-lg mt-2 p-0.5'>{message.sender}加入公共频道</div>
-                            }
-                        })
+                        currentChat === "CHATROOM"
+                            ? publicChats.map(message => {
+                                if (message.status === "MESSAGE") {
+                                    return <ChatMessage data={message.data} sender={message.sender} addPrivateChat={addPrivateChat} />
+                                } else if (message.status === "JOIN") {
+                                    return <div className='text-xs bg-gray-200 rounded-lg mt-2 p-0.5'>{message.sender}加入公共频道 当前在线人数{message.data}</div>
+                                }
+                            })
+                            : privateChats.get(currentChat).map(message => (
+                                <ChatMessage data={message.data} sender={message.sender} />
+                            ))
                     }
                 </div>
                 <div className='h-1/5 w-full flex gap-2 mt-3 justify-between' >

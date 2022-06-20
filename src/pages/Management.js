@@ -1,8 +1,10 @@
 import { useEffect, useState, useContext } from "react"
 import lipsticksApi from "../api/lipsticks"
+import colorApi from "../api/colors"
 import ReactPaginate from 'react-paginate';
 import LipstickManagement from "../components/LipstickManagement";
 import { UserContext } from "../context/UserContextProvider";
+import SearchModal from "../components/SearchModal"
 
 export default function Management() {
 
@@ -11,6 +13,8 @@ export default function Management() {
     const [currentPage, setCurrentPage] = useState(0)
     const [lipsticks, setLipsticks] = useState([])
     const pageSize = 10
+
+    const [showSearchModal, setShowSearchModal] = useState(false)
 
     useEffect(() => {
         if (user && user.roles.some(role => role.role === "ADMIN")) {
@@ -31,15 +35,15 @@ export default function Management() {
 
     const updateLipstick = (newLipstick) => {
         console.log(newLipstick)
-        lipsticksApi.put("",{...newLipstick,colors:[]})
-        .then(() => {
-            console.log("updatefinish")
-            setLipsticks(lipsticks.map(lipstick => (
-                lipstick.id === newLipstick.id
-                    ? newLipstick
-                    : lipstick
-            )))
-        })
+        lipsticksApi.put("", { ...newLipstick })
+            .then(() => {
+                console.log("updatefinish")
+                setLipsticks(lipsticks.map(lipstick => (
+                    lipstick.id === newLipstick.id
+                        ? newLipstick
+                        : lipstick
+                )))
+            })
     }
 
     const handlePageClick = (pageIndex) => {
@@ -47,14 +51,29 @@ export default function Management() {
         setCurrentPage(pageIndex.selected)
     }
 
-    const pageItem = "w-8 h-8 flex justify-center items-center mx-1 bg-blue-800 rounded-lg text-white"
-    const pageChange = "w-20 h-8 flex justify-center items-center mx-1 bg-blue-800 rounded-lg text-white"
-    const active = "mx-1 bg-blue-200 rounded-lg px-2 py-1 text-black"
+    const handleSearchClick = (result) => {
+        if (result.isColor) {
+            colorApi.get(`${result.id}/lipstick`)
+                .then(res => lipsticksApi.get(`${res.data.id}`))
+                .then(res => setLipsticks([res.data]))
+                .then(setShowSearchModal(false))
+        } else {
+            lipsticksApi.get(`${result.id}`)
+                .then(res => setLipsticks([res.data]))
+                .then(setShowSearchModal(false))
+        }
+    }
+
+    const pageItem = "w-8 h-8 flex justify-center items-center mx-1 bg-gray-600 rounded-lg text-white"
+    const pageChange = "w-20 h-8 flex justify-center items-center mx-1 bg-gray-600 rounded-lg text-white"
+    const active = "mx-1 bg-gray-400 rounded-lg px-2 py-1 text-black"
 
     return <div className="py-10">
+        <div className="search-btn-flex mx-auto" onClick={() => setShowSearchModal(true)}>搜索</div>
+        {showSearchModal && <SearchModal closeModal={() => setShowSearchModal(false)} handleClick={handleSearchClick} />}
         <div className="m-5">
             {lipsticks.map((lipstick) => (
-                <LipstickManagement lipstick={lipstick} updateLipstick={updateLipstick}/>
+                <LipstickManagement lipstick={lipstick} updateLipstick={updateLipstick} />
             ))}
         </div>
         <ReactPaginate
@@ -63,10 +82,10 @@ export default function Management() {
             pageRangeDisplayed={3}
             marginPagesDisplayed={2}
             pageCount={pageCount}
-            previousLabel="< previous"
+            previousLabel="< 上一页"
             pageClassName={pageItem}
             previousClassName={pageChange}
-            nextLabel="next >"
+            nextLabel="下一页 >"
             nextClassName={pageChange}
             breakLabel="..."
             breakClassName={pageItem}

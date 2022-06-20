@@ -6,7 +6,7 @@ import { useContext, useEffect } from 'react';
 
 
 export default function OAuth2RedirectHandler(props){
-    const { fetchUser } = useContext(UserContext)
+    const { fetchUserAndFavorite } = useContext(UserContext)
     const navigate = useNavigate()
     const [searchParam, setSearchParam] = useSearchParams()
     const {provider} = useParams()
@@ -16,11 +16,8 @@ export default function OAuth2RedirectHandler(props){
         console.log("start login")
         api.get(`/${provider}/${code}`)
         .then(res => localStorage.setItem("token", res.headers["authorization"]))
-        .then(() => fetchUser())
+        .then(() => fetchUserAndFavorite())
         .then(() => navigate(-1))
-        .catch(e => {
-            
-        })
     }
 
     useEffect(() => {

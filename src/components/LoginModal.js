@@ -19,7 +19,7 @@ export default function LoginModal(props) {
     const [registerMode, setRegisterMode] = useState(false)
     const [forgotMode, setForgotMode] = useState(false)
 
-    const { fetchUser, setShowLoginModal } = useContext(UserContext)
+    const { fetchUserAndFavorite, setShowLoginModal } = useContext(UserContext)
 
     function handleChange(event) {
         const { name, value } = event.target
@@ -46,7 +46,7 @@ export default function LoginModal(props) {
             password: formData.password
         })
             .then(res => localStorage.setItem("token", res.headers["authorization"]))
-            .then(() => fetchUser())
+            .then(() => fetchUserAndFavorite())
             .then(() => navigate(0))
             .catch(e => {
                 setErrorMessage("请输入正确的用户名/密码")

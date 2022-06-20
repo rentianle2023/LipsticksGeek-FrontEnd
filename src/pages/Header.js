@@ -19,13 +19,6 @@ export default function Header() {
         setShowMenu(prevState => !prevState)
     }
 
-    useEffect(() => {
-        setIsLoading(true)
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 1500)
-    }, [location])
-
     const [pages,setPages] = useState([
         { path: '/', name: '首页' },
         { path: '/recommendation', name: '推荐' },
@@ -34,6 +27,7 @@ export default function Header() {
     ])
 
     useEffect(() => {
+        console.log(user)
         if(user && user.roles.some(role => role.role === "ADMIN")){
             setPages([...pages,{path:'/management',name:'管理'}])
         }
@@ -68,7 +62,7 @@ export default function Header() {
                         user ? <Link to={`/user/${user.username}`}><StarIcon className="w-6 h-6 cursor-pointer"/></Link>
                             : <div className="button mx-2" onClick={() => setShowLoginModal(true)}>登录/注册</div>
                     }
-                    <a href="https://www.w3schools.com" className="">
+                    <a href="https://github.com/rentianle2022/LipsticksGeek-BackEnd" className="">
                         <GithubSvg className='w-6 h-6 inline-block fill-white' />
                     </a>
 

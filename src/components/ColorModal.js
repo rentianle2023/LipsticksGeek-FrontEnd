@@ -7,9 +7,12 @@ import colorApi from '../api/colors'
 
 export default function ColorPicker(props) {
 
-    const colors = ['#B71C1C', '#D32F2F', '#F44336', '#E57373', '#E65100', '#C2185B']
+    const colors = ["#b48081","#d39387","#ec827a","#c76864","#E57373",
+    "#F44336","#E65100","#D32F2F","#B71C1C","#A7170b","#a32525","#950f1a","#690d0e",
+    "#d41c5a","#C2185B","#c21e7c","#721e4b","#ab6241","#A84539","#88423c",]
+
     const [color, setColor] = useState({
-        "hex": "#cccccc"
+        "hex": "cccccc"
     })
     const [queryResults, setQueryResults] = useState([])
     const navigate = useNavigate()

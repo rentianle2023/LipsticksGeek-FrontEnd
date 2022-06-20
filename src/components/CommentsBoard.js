@@ -31,17 +31,15 @@ export default function CommentsBoard() {
     }
 
     const submitComment = () => {
-        commentsApi.post("/",
-            {
-                "content": commentContent
-            }
-        )
+        commentsApi.post("/", { "content": commentContent })
             .then(res => {
                 const newComment = res.data
                 newComment.replies = []
                 setComments(oldComments => [...oldComments, newComment])
                 setCommentContent("")
                 window.alert("留言成功！")
+            }).catch((e) => {
+                window.alert(e.response.data.message)
             })
     }
 
@@ -51,7 +49,7 @@ export default function CommentsBoard() {
 
     return (
         <div>
-            <div className='bg-gray-700 rounded-lg px-2 py-1 w-40 text-white '>留言板</div>
+            <div className='text-lg font-bold'>留言板</div>
             <textarea
                 value={commentContent}
                 onChange={handleChange}

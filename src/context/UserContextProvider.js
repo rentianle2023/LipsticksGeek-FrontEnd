@@ -11,9 +11,10 @@ function UserContextProvider(props) {
     const [isLoading, setIsLoading] = useState(false)
     const [favorite, setFavorite] = useState([])
 
-    function fetchUser() {
+    function fetchUserAndFavorite() {
         api.get("")
             .then(res => setUser(res.data))
+            .then(() => fetchFavorite())
     }
 
     function fetchFavorite() {
@@ -63,15 +64,11 @@ function UserContextProvider(props) {
     // }
 
     useEffect(() => {
-        fetchUser()
+        fetchUserAndFavorite()
     },[])
 
-    useEffect(() => {
-        fetchFavorite()
-    }, [user])
-
     return (
-        <UserContext.Provider value={{ user, setUser, fetchUser, showLoginModal, setShowLoginModal, isLoading, setIsLoading, favorite, addFavorite, removeFavorite }}>
+        <UserContext.Provider value={{ user, fetchUserAndFavorite, setUser, showLoginModal, setShowLoginModal, isLoading, setIsLoading, favorite, addFavorite, removeFavorite }}>
                 {props.children}
         </UserContext.Provider>
     )

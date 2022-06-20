@@ -14,7 +14,7 @@ html, body {
 
 @layer components {
     .flex-col-feature {
-      @apply flex flex-col items-center justify-center gap-2 bg-gray-100 mt-4 p-4 rounded-md border-b-4 border-red-500
+      @apply flex flex-col items-center justify-center gap-2 bg-gray-100 mt-4 py-4 px-20 rounded-md border-b-4 border-red-500 text-center
     }
 
     .focus-button {
@@ -35,5 +35,13 @@ html, body {
 
     .card {
       @apply w-full bg-white shadow-lg flex items-center justify-around mt-4 p-3
+    }
+
+    .search-btn {
+      @apply text-center bg-red-500 rounded-lg text-white py-2 w-32 mt-4 text-base cursor-pointer
+    }
+
+    .search-btn-flex {
+      @apply flex items-center w-1/3 p-2 text-gray-400 border-2 shadow-md rounded-lg
     }
   }

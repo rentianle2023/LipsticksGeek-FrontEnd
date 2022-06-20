@@ -2,7 +2,7 @@ import { useContext, useState,useRef } from 'react'
 import { UserContext } from '../context/UserContextProvider';
 import userApi from '../api/users'
 
-export default function Message(props) {
+export default function ChatMessage(props) {
 
     const { user } = useContext(UserContext)
 
