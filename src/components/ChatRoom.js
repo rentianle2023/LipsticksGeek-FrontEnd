@@ -3,6 +3,7 @@ import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import { UserContext } from '../context/UserContextProvider';
 import ChatMessage from './ChatMessage';
+import axios from 'axios';
 
 var stompClient = null
 export default function ChatRoom(props) {
@@ -18,16 +19,30 @@ export default function ChatRoom(props) {
         status: ""
     })
 
+    const [previousPublicChats, setPreiousPublicChats] = useState([])
+
     useEffect(() => {
         if (user) {
             connect()
         }
     }, [user])
 
+    useEffect(() => {
+
+        axios.get(`${process.env.REACT_APP_URL}/messages`)
+            .then(res => setPreiousPublicChats(res.data))
+
+        return () => {
+            if (user) {
+                userLeft()
+            }
+        }
+    }, [])
+
     const connect = () => {
         const Sock = new SockJS(`${process.env.REACT_APP_URL}/ws`)
         stompClient = over(Sock)
-        stompClient.connect({"Authorization" : localStorage.getItem('token')}, onConnected, onError)
+        stompClient.connect({ "Authorization": localStorage.getItem('token') }, onConnected, onError)
     }
 
     const onConnected = () => {
@@ -48,11 +63,21 @@ export default function ChatRoom(props) {
     }
 
     const userJoin = () => {
+
         var chatMessage = {
             sender: user.username,
             status: "JOIN"
         };
         stompClient.send("/chat/message", {}, JSON.stringify(chatMessage));
+    }
+
+    const userLeft = () => {
+
+        var chatMessage = {
+            sender: user.username,
+            status: "LEAVE"
+        }
+        stompClient.send("/chat/message", {}, JSON.stringify(chatMessage))
     }
 
     const onError = (err) => {
@@ -61,6 +86,7 @@ export default function ChatRoom(props) {
 
     const onMessageReceived = (payload) => {
         const message = JSON.parse(payload.body)
+        console.log(message)
 
         setPublicChats(prevMessages => {
             return [...prevMessages, message]
@@ -119,20 +145,26 @@ export default function ChatRoom(props) {
 
     useEffect(() => {
         scrollToBottom.current.scrollTop = scrollToBottom.current.scrollHeight
-    }, [privateChats, publicChats])
+    }, [privateChats, publicChats, previousPublicChats])
 
     return (
         <div className='flex w-full h-full'>
             <div className='flex flex-col flex-nowrap w-1/5 p-2 gap-2 text-white '>
-                <div className={`shadow-lg p-0.5 rounded-lg ${currentChat === "CHATROOM" ? 'bg-gray-600' : 'bg-gray-400 '}`} onClick={() => setCurrentChat("CHATROOM")}>公共频道</div>
+                <div className={`shadow-lg p-0.5 rounded-lg text-center ${currentChat === "CHATROOM" ? 'bg-gray-600' : 'bg-gray-400 '}`} onClick={() => setCurrentChat("CHATROOM")}>公共频道</div>
                 {Array.from(privateChats.keys()).map((name) => (
-                    <div className={`shadow-lg p-0.5 rounded-lg ${currentChat === name ? 'bg-gray-600' : 'bg-gray-400 '}`} onClick={() => setCurrentChat(name)}>
+                    <div className={`shadow-lg p-0.5 rounded-lg text-center ${currentChat === name ? 'bg-gray-600' : 'bg-gray-400 '}`} onClick={() => setCurrentChat(name)}>
                         {name}
                     </div>
                 ))}
             </div>
             <div className='w-4/5 h-full p-5 '>
                 <div className='h-80 overflow-y-scroll ring-black ring-1 p-3 flex flex-col' ref={scrollToBottom}>
+                    {
+                        currentChat === "CHATROOM" && 
+                        previousPublicChats.map(message => {
+                            return <ChatMessage data={message.data} sender={message.sender} addPrivateChat={addPrivateChat} />
+                        })
+                    }
                     {!user &&
                         <div className='self-center justify-self-center text-purple-700 font-bold '>
                             请先<span className='underline cursor-pointer' onClick={() => setShowLoginModal(true)}>登录/注册</span>
@@ -143,7 +175,9 @@ export default function ChatRoom(props) {
                                 if (message.status === "MESSAGE") {
                                     return <ChatMessage data={message.data} sender={message.sender} addPrivateChat={addPrivateChat} />
                                 } else if (message.status === "JOIN") {
-                                    return <div className='text-xs bg-gray-200 rounded-lg mt-2 p-0.5'>{message.sender}加入公共频道 当前在线人数{message.data}</div>
+                                    return <div className='text-xs bg-gray-200 rounded-lg mt-2 p-0.5'>{message.sender}加入 当前在线人数{message.data}</div>
+                                } else if (message.status === "LEAVE") {
+                                    return <div className='text-xs bg-gray-200 rounded-lg mt-2 p-0.5'>{message.sender}离开 当前在线人数{message.data}</div>
                                 }
                             })
                             : privateChats.get(currentChat).map(message => (
@@ -153,7 +187,7 @@ export default function ChatRoom(props) {
                 </div>
                 <div className='h-1/5 w-full flex gap-2 mt-3 justify-between' >
                     <input
-                        className={`w-4/5 ring-black ring-1 ${user ? '' : 'cursor-not-allowed'}`}
+                        className={`w-4/5 border-2 border-black ${user ? '' : 'cursor-not-allowed'}`}
                         placeholder='输入'
                         name="data"
                         onChange={changeFormData}
@@ -161,7 +195,7 @@ export default function ChatRoom(props) {
                         onKeyDown={event => { if (event.key === 'Enter') sendMessage() }}
                         disabled={user ? false : true}
                     />
-                    <button className='w-1/5 button bg-green-300' onClick={sendMessage}>发送</button>
+                    <button className='w-1/5 button bg-red-400 text-white' onClick={sendMessage}>发送</button>
                 </div>
             </div>
         </div>

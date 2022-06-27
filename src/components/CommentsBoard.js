@@ -49,14 +49,14 @@ export default function CommentsBoard() {
 
     return (
         <div>
-            <div className='text-lg font-bold'>留言板</div>
+            <div className='text-lg font-bold '>留言板</div>
             <textarea
                 value={commentContent}
                 onChange={handleChange}
                 className="border-2 border-black w-full mt-2"
                 readOnly={readOnly}
             />
-            <div className="button bg-green-300 w-20" onClick={submitComment}>留言</div>
+            <div className="button bg-red-400 text-white w-20 text-center" onClick={submitComment}>留言</div>
             {comments.map(comment => {
                 return (
                     <Comment comment={comment} addReply={addReply} />

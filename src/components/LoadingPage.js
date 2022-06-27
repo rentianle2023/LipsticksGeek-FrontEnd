@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Audio } from 'react-loader-spinner'
 
@@ -10,7 +10,7 @@ export default function LoadingPage() {
         setIsLoading(true)
         setTimeout(() => {
             setIsLoading(false)
-        }, 500)
+        }, 800)
     }, [pathname])
 
     return (

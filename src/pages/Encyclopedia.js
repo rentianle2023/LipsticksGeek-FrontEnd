@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
 import brandApi from '../api/brands'
-import colorApi from '../api/colors'
 import Brand from "../components/Brand"
 import SearchModal from "../components/SearchModal"
 import ColorModal from "../components/ColorModal"
@@ -13,26 +11,15 @@ export default function Encyclopedia() {
     const [brands, setBrands] = useState([])
     const [showSearchModal, setShowSearchModal] = useState(false)
     const [showColorModal, setShowColorModal] = useState(false)
-    const navigate = useNavigate()
 
     useEffect(() => {
         brandApi.get()
             .then(res => setBrands(res.data))
     }, [])
 
-    function handleClick(result) {
-        if (result.isColor) {
-            colorApi.get(`${result.id}/lipstick`)
-                .then(res =>
-                    navigate(`/lipstick/${res.data.id}?color=${result.id}`))
-        } else {
-            navigate(`/lipstick/${result.id}`)
-        }
-    }
-
     return (
         <div>
-            {showSearchModal && <SearchModal closeModal={() => setShowSearchModal(false)} handleClick={handleClick}/>}
+            {showSearchModal && <SearchModal closeModal={() => setShowSearchModal(false)}/>}
             {showColorModal && <ColorModal closeModal={() => setShowColorModal(false)} />}
             <div className="flex justify-center gap-4 pt-4">
                 <div className="search-btn-flex" onClick={() => setShowSearchModal(true)}>

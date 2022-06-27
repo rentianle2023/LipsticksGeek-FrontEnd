@@ -41,7 +41,7 @@ export default function UserSpace() {
     function handleLogout(){
         localStorage.setItem('token','')
         setUser('')
-        navigate(0)
+        navigate('/')
     }
 
     return (
@@ -49,8 +49,8 @@ export default function UserSpace() {
             {user && user.username === username ? <div className="flex flex-col justify-center items-center bg-gray-200 p-3 sm:flex-row sm:items-start">
                 <div className="card sm:w-1/5 sm:self-start sm:flex-col sm:gap-5">
                     <div className="flex flex-col">
-                        <img src={user.avatar} className='w-24 rounded-lg' />
-                        <div className="text-2xl">{user.username}</div>
+                        <img src={user.avatar} className='w-24 rounded-lg mx-auto' />
+                        <div className="text-lg">{user.username}</div>
                     </div>
                     <div className="flex flex-col">
                         <div>用户编号: {user.id}</div>

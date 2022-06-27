@@ -26,8 +26,13 @@ export default function LipstickManagement(props) {
     const updateColor = (updatedColor) => {
         colorApi.put("", updatedColor)
             .then(() => {
-                const updatedColors = colors.map(color => color.id === updateColor.id ? updateColor : color)
-                props.updateLipstick({ ...props.lipstick, colors: updatedColors })
+                const updatedColors = colors.map(color => color.id === updatedColor.id ? updatedColor : color)
+                const newLipstick = { ...props.lipstick, colors: updatedColors }
+                props.setLipsticks(lipsticks => lipsticks.map(lipstick => (
+                    lipstick.id === newLipstick.id
+                        ? newLipstick
+                        : lipstick
+                )))
                 window.alert("更新成功！")
                 setShowLipstickModal(false)
             })

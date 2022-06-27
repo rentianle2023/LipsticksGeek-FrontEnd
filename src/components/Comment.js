@@ -57,7 +57,7 @@ export default function Comment(props) {
                             className="border-2 border-black w-full"
                             readOnly={readOnly}
                         />
-                        <div className="button bg-green-300 w-20" onClick={submitReply}>提交回复</div>
+                        <div className="button bg-red-400 text-white text-center w-20 my-1" onClick={submitReply}>提交回复</div>
                     </div>
                 }
             </div>

@@ -38,7 +38,7 @@ export default function Management() {
         lipsticksApi.put("", { ...newLipstick })
             .then(() => {
                 console.log("updatefinish")
-                setLipsticks(lipsticks.map(lipstick => (
+                setLipsticks(lipsticks => lipsticks.map(lipstick => (
                     lipstick.id === newLipstick.id
                         ? newLipstick
                         : lipstick
@@ -73,7 +73,7 @@ export default function Management() {
         {showSearchModal && <SearchModal closeModal={() => setShowSearchModal(false)} handleClick={handleSearchClick} />}
         <div className="m-5">
             {lipsticks.map((lipstick) => (
-                <LipstickManagement lipstick={lipstick} updateLipstick={updateLipstick} />
+                <LipstickManagement lipstick={lipstick} updateLipstick={updateLipstick} setLipsticks={setLipsticks}/>
             ))}
         </div>
         <ReactPaginate

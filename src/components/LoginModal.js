@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../context/UserContextProvider";
 import loginApi from '../api/login'
 import userApi from '../api/users'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as GithubSvg } from '../svg/github.svg'
 
 export default function LoginModal(props) {
@@ -20,6 +20,9 @@ export default function LoginModal(props) {
     const [forgotMode, setForgotMode] = useState(false)
 
     const { fetchUserAndFavorite, setShowLoginModal } = useContext(UserContext)
+
+    const nagivate = useNavigate()
+    const { pathname } = useLocation()
 
     function handleChange(event) {
         const { name, value } = event.target
@@ -102,6 +105,15 @@ export default function LoginModal(props) {
             })
     }
 
+    const oauthLogin = () => {
+        localStorage.setItem("oauthRedirectPage",pathname)
+        console.log(pathname)
+        window.location.assign(
+            `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_GITHUB_REDIRECT_URI}&scope=user`
+        );
+
+    }
+
     return (
         <Modal closeModal={() => setShowLoginModal(false)} width={"18em"} height={"auto"}>
             <div className="text-xs font-light text-gray-700">
@@ -182,12 +194,11 @@ export default function LoginModal(props) {
 
                 }
             </div>
-            <a href={
-                `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_GITHUB_REDIRECT_URI}&scope=user`
-            }
-                className="bg-gray-200 rounded-lg p-1">
+            <div
+                className="bg-gray-200 rounded-lg p-1 cursor-pointer"
+                onClick={oauthLogin}>
                 <GithubSvg className='w-5 h-5 inline-block' /><span className="text-xs"> github登录</span>
-            </a>
+            </div>
         </Modal>
     )
 }

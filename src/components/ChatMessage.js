@@ -52,9 +52,9 @@ export default function ChatMessage(props) {
 
     return (
         <div>
-            <div className={`flex gap-3 mt-2 z-10  ${props.sender === user.username ? 'justify-end' : ''}`} >
+            <div className={`flex gap-3 mt-2 z-10  ${user && props.sender === user.username ? 'justify-end' : ''}`} >
                 <div
-                    className={`bg-gray-200 rounded-lg p-2 relative  ${props.sender === user.username ? 'order-last' : ''}`}
+                    className={`bg-gray-200 rounded-lg p-2 relative  ${user && props.sender === user.username ? 'order-last' : ''}`}
                     onClick={handleClick}
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
@@ -73,7 +73,7 @@ export default function ChatMessage(props) {
                         </div>
                     }
                 </div>
-                <div className='bg-green-500 rounded-lg p-2'>{props.data}</div>
+                <div className='bg-red-400 rounded-lg p-2 text-white'>{props.data}</div>
             </div>
         </div>
     )
