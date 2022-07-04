@@ -1,9 +1,9 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import api from "../api/lipsticks"
+import api from "../../api/lipsticks"
 import { StarIcon as StarIconOutline } from "@heroicons/react/outline";
 import { StarIcon as StarIconSolid } from "@heroicons/react/solid";
-import { UserContext } from "../context/UserContextProvider";
+import { UserContext } from "../../context/UserContextProvider";
 
 export default function LipstickDetail() {
 

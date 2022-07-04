@@ -2,17 +2,17 @@ import Header from './pages/Header'
 import Home from './pages/Home'
 import Footer from './pages/Footer';
 import Recommendation from './pages/Recommendation';
-import Encyclopedia from './pages/Encyclopedia';
+import Wiki from './pages/Wiki';
 import Community from './pages/Community';
-import BrandDetail from './pages/BrandDetail';
+import BrandDetail from './pages/wiki/BrandDetail';
 import UserSpace from './pages/UserSpace';
 import Management from './pages/Management';
 import OAuth2RedirectHandler from './components/OAuth2RedirectHandler';
+import LipstickDetail from './pages/wiki/LipstickDetail';
 import {
   Routes,
   Route
 } from "react-router-dom";
-import LipstickDetail from './pages/LipstickDetail';
 
 function App() {
 
@@ -23,9 +23,9 @@ function App() {
       <main className='mt-16'>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/recommendation" element={<Recommendation />} />
+          <Route path="/recommendation/*" element={<Recommendation />} />
 
-          <Route path="/encyclopedia" element={<Encyclopedia />} />
+          <Route path="/wiki" element={<Wiki />} />
 
           <Route path='/brand/:brandId' element={<BrandDetail />} />
 

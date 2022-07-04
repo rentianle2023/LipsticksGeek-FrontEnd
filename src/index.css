@@ -22,7 +22,7 @@ html, body {
     }
 
     .button {
-      @apply py-0.5 px-1 rounded-md cursor-pointer
+      @apply py-0.5 px-1 rounded-lg cursor-pointer
     }
 
     .input {

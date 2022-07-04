@@ -1,16 +1,16 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from 'react'
-import api from '../api/brands'
-import Lipstick from "../components/Lipstick"
+import api from '../../api/brands'
+import Lipstick from "../../components/Lipstick"
 
 
 export default function BrandDetail() {
 
     const { brandId } = useParams()
     const [lipsticks, setLipsticks] = useState()
+    const [brand, setBrand] = useState()
 
     useEffect(() => {
-        console.log("fetch")
         api.get(brandId + "/lipsticks")
             .then(res => setLipsticks(res.data))
     }, [brandId])

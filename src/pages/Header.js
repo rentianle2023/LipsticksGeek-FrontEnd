@@ -22,7 +22,7 @@ export default function Header() {
     const [pages,setPages] = useState([
         { path: '/', name: '首页' },
         { path: '/recommendation', name: '推荐' },
-        { path: '/encyclopedia', name: '百科' },
+        { path: '/wiki', name: '百科' },
         { path: '/community', name: '社区' }
     ])
 

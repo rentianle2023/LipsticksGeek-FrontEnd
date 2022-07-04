@@ -26,7 +26,7 @@ export default function CommentsBoard() {
 
     const addReply = (commentId, reply) => {
         setComments(prevComments => prevComments.map(comment => {
-            return comment.id === commentId ? { ...comment, replies: [reply, ...comment.replies] } : comment
+            return comment.id === commentId ? { ...comment, replies: [...comment.replies,reply] } : comment
         }))
     }
 
@@ -53,13 +53,13 @@ export default function CommentsBoard() {
             <textarea
                 value={commentContent}
                 onChange={handleChange}
-                className="border-2 border-black w-full mt-2"
+                className="border-2 border-black w-full mt-2 rounded-md"
                 readOnly={readOnly}
             />
             <div className="button bg-red-400 text-white w-20 text-center" onClick={submitComment}>留言</div>
-            {comments.map(comment => {
+            {comments.map((comment,index) => {
                 return (
-                    <Comment comment={comment} addReply={addReply} />
+                    <Comment comment={comment} addReply={addReply} index={index}/>
                 )
             }).reverse()}
         </div>

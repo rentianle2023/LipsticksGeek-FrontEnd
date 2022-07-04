@@ -6,12 +6,18 @@ export default function LoadingPage() {
     const { pathname } = useLocation();
     const [isLoading,setIsLoading] = useState(false)
 
+    const prefix = '/recommendation/'
+
     useMemo(() => {
+        if(pathname.startsWith(prefix)) return
         setIsLoading(true)
         setTimeout(() => {
             setIsLoading(false)
-        }, 800)
+        }, 500)
     }, [pathname])
+
+
+    
 
     return (
         <div>

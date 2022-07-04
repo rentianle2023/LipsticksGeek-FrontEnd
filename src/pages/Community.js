@@ -5,7 +5,7 @@ export default function Community() {
     return (
         <div className=" mx-5 py-5">
             <ChatRoom />
-            <div className="h-0.5 bg-gray-200 m-5"></div>
+            <div className="h-0.5 bg-gray-200 my-10"></div>
             <CommentsBoard />
         </div>
     )

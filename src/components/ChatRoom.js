@@ -148,17 +148,17 @@ export default function ChatRoom(props) {
     }, [privateChats, publicChats, previousPublicChats])
 
     return (
-        <div className='flex w-full h-full'>
-            <div className='flex flex-col flex-nowrap w-1/5 p-2 gap-2 text-white '>
-                <div className={`shadow-lg p-0.5 rounded-lg text-center ${currentChat === "CHATROOM" ? 'bg-gray-600' : 'bg-gray-400 '}`} onClick={() => setCurrentChat("CHATROOM")}>公共频道</div>
+        <div className='flex flex-col w-full h-full'>
+            <div className='flex flex-nowrap gap-2 text-white overflow-x-auto'>
+                <div className={`shadow-lg p-0.5 rounded-lg text-center w-40 cursor-pointer ${currentChat === "CHATROOM" ? 'bg-gray-700' : 'bg-gray-500 '}`} onClick={() => setCurrentChat("CHATROOM")}>公共频道</div>
                 {Array.from(privateChats.keys()).map((name) => (
-                    <div className={`shadow-lg p-0.5 rounded-lg text-center ${currentChat === name ? 'bg-gray-600' : 'bg-gray-400 '}`} onClick={() => setCurrentChat(name)}>
+                    <div className={`shadow-lg p-0.5 rounded-md text-center w-40 cursor-pointer ${currentChat === name ? 'bg-gray-700' : 'bg-gray-500 '}`} onClick={() => setCurrentChat(name)}>
                         {name}
                     </div>
                 ))}
             </div>
-            <div className='w-4/5 h-full p-5 '>
-                <div className='h-80 overflow-y-scroll ring-black ring-1 p-3 flex flex-col' ref={scrollToBottom}>
+            <div className='w-full h-full mt-5'>
+                <div className='h-80 overflow-y-scroll border-gray-800 border-2 rounded-md p-3 flex flex-col' ref={scrollToBottom}>
                     {
                         currentChat === "CHATROOM" && 
                         previousPublicChats.map(message => {
@@ -187,7 +187,7 @@ export default function ChatRoom(props) {
                 </div>
                 <div className='h-1/5 w-full flex gap-2 mt-3 justify-between' >
                     <input
-                        className={`w-4/5 border-2 border-black ${user ? '' : 'cursor-not-allowed'}`}
+                        className={`w-4/5 border-2 border-black rounded-md ${user ? '' : 'cursor-not-allowed'}`}
                         placeholder='输入'
                         name="data"
                         onChange={changeFormData}
