@@ -10,6 +10,7 @@ html, body {
     padding: 0;
     height: 100vh;
     font-family: 'Nunito','Noto Sans SC';
+    color : #212121;
 }
 
 @layer components {

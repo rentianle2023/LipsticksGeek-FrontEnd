@@ -12,6 +12,7 @@ function UserContextProvider(props) {
     const [favorite, setFavorite] = useState([])
 
     function fetchUserAndFavorite() {
+        if(localStorage.getItem('token') === null) return
         api.get("")
             .then(res => setUser(res.data))
             .then(() => fetchFavorite())
@@ -57,11 +58,6 @@ function UserContextProvider(props) {
             prev.filter(fav => fav.id !== color.id)
         )))
     }
-
-    // const function quit(){
-    //     clearToken
-    //     clearUser
-    // }
 
     useEffect(() => {
         fetchUserAndFavorite()

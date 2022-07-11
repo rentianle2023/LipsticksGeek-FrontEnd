@@ -14,11 +14,21 @@ export default function ClassicRecommandation() {
 
     return (
         <div >
-            <div className="font-bold text-lg">经典推荐</div>
-            <div className="sm:flex">
+            <div className="font-bold text-lg">
+                <span className="text-red-500">
+                    HOT10&nbsp;
+                </span>
+                    Lipsticks 推荐
+            </div>
+
+            <div className=" text-sm text-gray-500 mt-2">
+                *该推荐参考自各品牌 TaoBao 销量及评价
+            </div>
+
+            <div className="sm:flex sm:flex-wrap">
                 {
                     colors.map((color, index) => (
-                        <div className="sm:basis-1/4">
+                        <div className="lg:basis-1/5 sm:basis-1/4">
                             <ColorDetails index={index} color={color} />
                         </div>
                     ))

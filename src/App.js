@@ -27,9 +27,9 @@ function App() {
 
           <Route path="/wiki" element={<Wiki />} />
 
-          <Route path='/brand/:brandId' element={<BrandDetail />} />
+          <Route path='/wiki/brand/:brandId' element={<BrandDetail />} />
 
-          <Route path='/lipstick/:lipstickId' element={<LipstickDetail />} />
+          <Route path='/wiki/lipstick/:lipstickId' element={<LipstickDetail />} />
 
           <Route path="/community" element={<Community />} />
 

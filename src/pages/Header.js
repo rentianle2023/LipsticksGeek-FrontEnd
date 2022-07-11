@@ -36,7 +36,7 @@ export default function Header() {
     const pageElement = pages.map(page => (
         <Link
             to={page.path}
-            className={location.pathname === page.path ? 'focus-button' : 'button'}
+            className={(location.pathname === page.path || (page.path != '/' && location.pathname.startsWith(page.path))) ? 'focus-button' : 'button'}
             onClick={() => setShowMenu(false)}>
             {page.name}
         </Link>

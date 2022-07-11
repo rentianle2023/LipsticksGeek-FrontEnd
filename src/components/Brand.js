@@ -9,7 +9,7 @@ export default function Brand(props) {
                 <div className="h-28 pt-10">
                     <img src={props.brand.logoImage} className=' mx-auto' alt='brand logo' />
                 </div>
-                <Link to={`/brand/${props.brand.id}`} >
+                <Link to={`/wiki/brand/${props.brand.id}`} >
                     <div className="bg-gray-700 rounded-lg mt-5 mx-auto p-2 text-sm hover:bg-red-700 cursor-pointer">
                         查看 {props.brand.name} 的口红色号
                     </div>
