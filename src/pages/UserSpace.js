@@ -15,7 +15,7 @@ export default function UserSpace() {
         console.log(colorId)
         colorApi.get(`${colorId}/lipstick`)
             .then(res =>
-                navigate(`/lipstick/${res.data.id}?color=${colorId}`))
+                navigate(`/wiki/lipstick/${res.data.id}?color=${colorId}`))
     }
 
     const favoriteElement = favorite.map(favorite => {
@@ -39,7 +39,7 @@ export default function UserSpace() {
     })
 
     function handleLogout(){
-        localStorage.setItem('token','')
+        localStorage.removeItem("token")
         setUser('')
         navigate('/')
     }

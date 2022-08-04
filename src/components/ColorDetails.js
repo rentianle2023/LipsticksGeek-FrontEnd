@@ -18,7 +18,7 @@ export default function ColorDetails(props) {
 
                 <div>{color.lipstickName} - {color.lipstickPrice}</div>
                 <Link
-                    to={`/lipstick/${color.lipstickId}?color=${color.id}`}
+                    to={`/wiki/lipstick/${color.lipstickId}?color=${color.id}`}
                 >
                     <div className='text-gray-400 underline text-sm'>查看详情</div>
                 </Link>

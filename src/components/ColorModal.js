@@ -10,7 +10,7 @@ export default function ColorPicker(props) {
 
     const colors = ["#d39387", "#b48081", "#c76864", "#ec827a", "#E57373",
         "#F44336", "#E65100", "#D32F2F", "#B71C1C", "#A7170b", "#a32525", "#950f1a", "#690d0e",
-        "#d41c5a", "#C2185B", "#c21e7c", "#721e4b", "#ab6241", "#A84539", "#88423c",]
+        "#d41c5a", "#C2185B", "#721e4b", "#ab6241", "#A84539", "#88423c",]
 
     const [color, setColor] = useState({
         "hex": "cccccc"
@@ -26,7 +26,7 @@ export default function ColorPicker(props) {
     function handleRidirect(result) {
         colorApi.get(`${result.id}/lipstick`)
             .then(res =>
-                navigate(`/lipstick/${res.data.id}?color=${result.id}`))
+                navigate(`/wiki/lipstick/${res.data.id}?color=${result.id}`))
     }
 
     useEffect(() => {

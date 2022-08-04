@@ -35,7 +35,7 @@ export default function SkinRecommandation() {
                     <div className="text-sm font-light flex flex-col gap-2 mt-2">
                         <div>1）血管呈蓝紫色，肤色属于冷色调（可参考白皮口红推荐）。</div>
                         <div>2）血管呈蓝绿色，肤色属于暖色调（可参考黄皮口红推荐）。</div>
-                        <div>3）血管呈纯绿色，肤色属于中性色调（可同时参考白、黄皮皮口红推荐，友情提示选择黄皮口红推荐更不会出错哦）。</div>
+                        <div>3）血管呈纯绿色，肤色属于中性色调（可同时参考白、黄皮口红推荐，友情提示选择黄皮口红推荐更不会出错哦）。</div>
                     </div>
                 </div>
             </div>

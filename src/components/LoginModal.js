@@ -106,12 +106,20 @@ export default function LoginModal(props) {
     }
 
     const oauthLogin = () => {
-        localStorage.setItem("oauthRedirectPage",pathname)
+        localStorage.setItem("oauthRedirectPage", pathname)
         console.log(pathname)
         window.location.assign(
             `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_GITHUB_REDIRECT_URI}&scope=user`
         );
 
+    }
+
+    const sendVarificationCode = () => {
+        alert("该功能正在开发中！")
+    }
+
+    const updatePassword = () => {
+        alert("该功能正在开发中！")
     }
 
     return (
@@ -185,11 +193,25 @@ export default function LoginModal(props) {
                             value={formData.email}
                             onChange={handleChange}
                             className='input' />
-                        <button className="button bg-black text-white" onClick={handleRegister}>发送验证</button>
+                        <button className="button bg-black text-white" onClick={sendVarificationCode}>发送验证</button>
+                        <input
+                            name="code"
+                            placeholder="验证码"
+                            value={formData.code}
+                            onChange={handleChange}
+                            className='input' />
+                        <input
+                            name="password"
+                            placeholder="新密码"
+                            value={formData.password}
+                            onChange={handleChange}
+                            className='input' />
+                        <button className="button bg-black text-white" onClick={updatePassword}>更新密码</button>
                         <div className="flex justify-between">
                             <button onClick={toLogin}>登录</button>
                             <button onClick={toRegister}>注册</button>
                         </div>
+
                     </div>
 
                 }

@@ -14,14 +14,14 @@ export default function ClassicRecommandation() {
 
     return (
         <div >
-            <div className="font-bold text-lg">
+            <div className="font-bold text-xl">
                 <span className="text-red-500">
                     HOT10&nbsp;
                 </span>
                     Lipsticks 推荐
             </div>
 
-            <div className=" text-sm text-gray-500 mt-2">
+            <div className=" text-sm text-gray-500 mt-1">
                 *该推荐参考自各品牌 TaoBao 销量及评价
             </div>
 
