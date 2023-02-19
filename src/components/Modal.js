@@ -18,7 +18,7 @@ export default function Modal(props) {
                 <div className="bg-white rounded-lg p-3 border-2 shadow-xl flex flex-col overflow-auto w-full h-full" onClick={(e) => e.stopPropagation()}>
                     {props.children}
                 </div>
-                <div onClick={props.closeModal} className="button "><XIcon className='w-5 h-5 m-1 fill-red-200' /></div>
+                <div onClick={props.closeModal} className="button "><XIcon className='w-5 h-5 m-1 fill-red-200 bg-white rounded-full' /></div>
             </div>
         </div>
     )

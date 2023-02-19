@@ -20,7 +20,7 @@ function App() {
   return (
     <div>
       <Header />
-      <main className='mt-16'>
+      <main className='mt-[60px]'>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/recommendation/*" element={<Recommendation />} />

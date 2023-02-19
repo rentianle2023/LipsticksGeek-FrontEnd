@@ -14,7 +14,7 @@ export default function MasterRecommandation(){
     return (
         <div >
             <div className="font-bold text-xl">
-                From YicenShen, Not the programmer, 请放心食用
+                From Synco & Miley, Not the programmer, 请放心食用
             </div>
 
             <div className="sm:flex sm:flex-wrap">

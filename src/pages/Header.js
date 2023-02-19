@@ -6,7 +6,6 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../context/UserContextProvider";
 import LoginModal from "../components/LoginModal";
 import { StarIcon } from "@heroicons/react/solid";
-import { ReactComponent as GithubSvg } from '../svg/github.svg'
 
 
 export default function Header() {
@@ -43,9 +42,9 @@ export default function Header() {
     ))
 
     return (
-        <div className=" bg-gray-700 fixed top-0 w-full z-50">
+        <div className=" bg-deep-blue fixed top-0 w-full z-50 h-[60px]">
 
-            <nav className="flex items-center justify-start py-2 px-5  shadow-md shadow-gray-800 text-indigo-100 text-sm ">
+            <nav className="flex items-center justify-start py-2 px-5 text-white text-sm ">
 
                 <h1 className="font-bold">
                     <Link to="/">
@@ -62,9 +61,6 @@ export default function Header() {
                         user ? <Link to={`/user/${user.username}`}><StarIcon className="w-6 h-6 cursor-pointer"/></Link>
                             : <div className="button mx-2" onClick={() => setShowLoginModal(true)}>登录/注册</div>
                     }
-                    <a href="https://github.com/rentianle2022/LipsticksGeek-BackEnd" className="">
-                        <GithubSvg className='w-6 h-6 inline-block fill-white' />
-                    </a>
 
                     <MenuIcon className="h-5 sm:hidden" onClick={toggleMenu} />
                 </div>

@@ -166,7 +166,7 @@ export default function ChatRoom(props) {
                         })
                     }
                     {!user &&
-                        <div className='self-center justify-self-center text-purple-700 font-bold '>
+                        <div className='self-center justify-self-center text-red font-bold '>
                             请先<span className='underline cursor-pointer' onClick={() => setShowLoginModal(true)}>登录/注册</span>
                         </div>}
                     {

@@ -41,7 +41,7 @@ export default function Encyclopedia() {
                     <span>全站搜索</span>
                 </div>
                 <div className="search-btn-flex" onClick={() => setShowColorModal(true)}>
-                    <ColorSwatchIcon className="w-5 h-5 fill-red-500 mr-1" />
+                    <ColorSwatchIcon className="w-5 h-5 fill-red mr-1" />
                     <span>颜色匹配</span>
                 </div>
             </div>

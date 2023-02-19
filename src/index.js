@@ -6,6 +6,7 @@ import { UserContextProvider } from './context/UserContextProvider';
 import { BrowserRouter as Router } from "react-router-dom";
 import LoadingPage from './components/LoadingPage';
 import ScrollToTop from './components/ScrollToTop'
+import Footer from './pages/Footer';
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
